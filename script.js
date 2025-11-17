@@ -19,12 +19,14 @@ const obstacle = document.getElementById("obstacle");
 const scoreDisplay = document.getElementById("score");
 const gameOverScreen = document.getElementById("gameOver");
 const finalScore = document.getElementById("finalScore");
+const startBtn = document.getElementById("startButton");
+const restartBtn = document.getElementById("restartButton");
 
 // =========================
 // INICIO DEL JUEGO
 // =========================
-document.getElementById("startBtn").addEventListener("click", startGame);
-document.getElementById("restartBtn").addEventListener("click", resetGame);
+startBtn.addEventListener("click", startGame);
+restartBtn.addEventListener("click", resetGame);
 
 function startGame() {
   welcomeScreen.style.display = "none";

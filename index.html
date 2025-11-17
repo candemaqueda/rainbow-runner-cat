@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<!-- Estructura principal del documento HTML -->
+<html lang="es">
+<!-- Metadatos del documento, título y enlace al CSS -->
+<head>
+  <meta charset="UTF-8" />
+  <title>RAINBOW RUNNER CAT</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<!-- Contenido visible del juego en pantalla -->
+<body>
+  <!-- Contenedor principal que agrupa todo el juego -->
+  <div class="game-wrapper">
+    <!-- Título del juego -->
+    <h1>RAINBOW RUNNER CAT</h1>
+    <!-- Instrucciones iniciales para el jugador -->
+    <div class="subtitle">Presioná ESPACIO o tocá la pantalla para saltar 🌈</div>
+
+    <!-- Área principal del juego donde se mueve el personaje y aparecen obstáculos -->
+    <div id="game">
+      <!-- Suelo donde corre el gato -->
+      <div id="ground"></div>
+      <!-- Personaje principal: el gato -->
+      <div id="cat">
+        <!-- Cola arcoíris detrás del gato -->
+        <div class="rainbow"></div>
+      </div>
+      <!-- Obstáculo que el gato debe esquivar -->
+      <div id="obstacle"></div>
+    </div>
+
+    <!-- Marcador de puntaje -->
+    <div id="score">Score: 0</div>
+
+    <!-- Pantalla inicial antes de comenzar el juego -->
+    <div id="startScreen" class="overlay show">
+      Presioná <b>ESPACIO</b> o tocá dentro del juego para empezar.
+    </div>
+
+    <!-- Pantalla de Game Over con puntaje final y botón de reinicio -->
+    <div id="gameOver" class="overlay">
+      <div><b>Game Over – el gatito chocó un meteorito 💥</b></div>
+      <div class="final-score"></div>
+      <button id="restartBtn">Jugar de nuevo</button>
+    </div>
+
+    <!-- Texto de ayuda con recomendaciones -->
+    <div class="hint">
+      Tip: podés aumentar o bajar la dificultad cambiando la velocidad en el JS.
+    </div>
+  </div>
+
+  <!-- Archivo JavaScript que controla la lógica del juego -->
+  <script src="script.js"></script>
+</body>
+</html>

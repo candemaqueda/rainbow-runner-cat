@@ -1,0 +1,202 @@
+/* Resetea el box-sizing y elimina márgenes y padding por defecto */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+/* Define el diseño general, fondo y tipografía de la página */
+body {
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  background: radial-gradient(circle at top, #1b2559 0, #050617 60%, #02010a 100%);
+  color: #f9fafb;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+}
+
+/* Contenedor para centrar y organizar el juego */
+.game-wrapper {
+  text-align: center;
+}
+
+/* Estilos para el título principal del juego */
+h1 {
+  font-size: 28px;
+  letter-spacing: 2px;
+  margin-bottom: 8px;
+}
+
+/* Estilos para el subtítulo/instrucciones */
+.subtitle {
+  font-size: 13px;
+  opacity: 0.8;
+  margin-bottom: 12px;
+}
+
+/* Área principal del juego (canvas) donde ocurre todo */
+#game {
+  position: relative;
+  width: 800px;
+  height: 260px;
+  border: 3px solid #ffffff33;
+  background: linear-gradient(#020617 60%, #020617 60%);
+  overflow: hidden;
+  margin: 0 auto;
+}
+
+/* Estrellitas de fondo */
+#game::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image:
+    radial-gradient(2px 2px at 10% 20%, #e5e7eb 50%, transparent 51%),
+    radial-gradient(2px 2px at 80% 30%, #e5e7eb 50%, transparent 51%),
+    radial-gradient(2px 2px at 30% 70%, #e5e7eb 50%, transparent 51%),
+    radial-gradient(2px 2px at 60% 10%, #e5e7eb 50%, transparent 51%);
+  opacity: 0.6;
+  pointer-events: none;
+}
+
+/* Representa el suelo/línea donde corre el gato */
+#ground {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  height: 40px;
+  background: repeating-linear-gradient(
+    -45deg,
+    #111827,
+    #111827 8px,
+    #020617 8px,
+    #020617 16px
+  );
+  border-top: 2px solid #4b5563;
+}
+
+/* Estilos para el cuerpo principal del personaje gato */
+#cat {
+  position: absolute;
+  left: 80px;
+  bottom: 40px; /* igual que ground height */
+  width: 50px;
+  height: 36px;
+  background: #f9739a; /* cuerpo galletita */
+  border: 3px solid #111827;
+  border-radius: 6px;
+  box-shadow: 0 0 0 3px #faccf7;
+  image-rendering: pixelated;
+}
+
+/* Pseudo-elemento que dibuja la cara del gato */
+#cat::before {
+  content: "";
+  position: absolute;
+  width: 24px;
+  height: 18px;
+  right: -20px;
+  top: 6px;
+  background: #4b5563;
+  border: 3px solid #111827;
+  border-radius: 6px;
+  box-shadow: 0 0 0 2px #111827;
+}
+
+/* Pseudo-elemento que dibuja las orejas del gato */
+#cat::after {
+  content: "";
+  position: absolute;
+  width: 18px;
+  height: 10px;
+  right: -16px;
+  top: -6px;
+  background: #4b5563;
+  border-radius: 3px 3px 0 0;
+  box-shadow: 12px 0 0 0 #4b5563;
+}
+
+/* Estilos para la cola arcoíris detrás del gato */
+.rainbow {
+  position: absolute;
+  left: -140px;
+  top: 14px;
+  width: 140px;
+  height: 14px;
+  background: linear-gradient(
+    to right,
+    #f97316,
+    #facc15,
+    #22c55e,
+    #0ea5e9,
+    #6366f1,
+    #a855f7
+  );
+  border-radius: 8px;
+  opacity: 0.95;
+}
+
+/* Estilos para los obstáculos que el gato debe saltar */
+#obstacle {
+  position: absolute;
+  bottom: 40px;
+  width: 30px;
+  height: 40px;
+  background: #22c55e;
+  border: 3px solid #111827;
+  border-radius: 6px;
+  box-shadow: 0 0 0 2px #bbf7d0;
+  left: 820px; /* arranca fuera del juego */
+}
+
+/* Estilos para la visualización del puntaje */
+#score {
+  margin-top: 10px;
+  font-size: 14px;
+  letter-spacing: 1px;
+}
+
+/* Estilos para los textos de overlay de inicio y fin de juego */
+.overlay {
+  margin-top: 12px;
+  font-size: 14px;
+  opacity: 0.9;
+  display: none;
+}
+
+/* Clase que hace visible el overlay */
+.overlay.show {
+  display: block;
+}
+
+/* Ajustes tipográficos para el mensaje de fin de juego */
+#gameOver {
+  font-size: 16px;
+}
+
+/* Estilos para los botones de acción */
+button {
+  margin-top: 8px;
+  padding: 6px 14px;
+  border-radius: 999px;
+  border: none;
+  cursor: pointer;
+  font-size: 13px;
+  background: #f97316;
+  color: white;
+  font-weight: 600;
+}
+
+/* Estado hover del botón */
+button:hover {
+  background: #ea580c;
+}
+
+/* Estilos para el texto de ayuda/pista */
+.hint {
+  font-size: 12px;
+  margin-top: 6px;
+  opacity: 0.7;
+}

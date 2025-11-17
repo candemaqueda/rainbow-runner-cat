@@ -9,6 +9,15 @@
 </head>
 <!-- Contenido visible del juego en pantalla -->
 <body>
+  <!-- Pantalla de bienvenida con el gatito y botón Jugar -->
+  <div id="welcomeScreen" class="welcome-screen">
+    <div class="welcome-content">
+      <div class="big-cat"></div>
+      <h2>RAINBOW RUNNER CAT</h2>
+      <p>Ayudá al gatito a esquivar los meteoritos saltando con la barra espaciadora.</p>
+      <button id="startBtn">Jugar</button>
+    </div>
+  </div>
   <!-- Contenedor principal que agrupa todo el juego -->
   <div class="game-wrapper">
     <!-- Título del juego -->
@@ -24,6 +33,22 @@
       <div id="cat">
         <!-- Cola arcoíris detrás del gato -->
         <div class="rainbow"></div>
+
+        <!-- Manta / base azul -->
+        <div class="cat-blanket"></div>
+
+        <!-- Cabeza del gatito -->
+        <div class="cat-head">
+          <div class="cat-ear ear-left"></div>
+          <div class="cat-ear ear-right"></div>
+          <div class="cat-eye eye-left"></div>
+          <div class="cat-eye eye-right"></div>
+          <div class="cat-mouth"></div>
+        </div>
+
+        <!-- Patitas delanteras -->
+        <div class="cat-paw paw-left"></div>
+        <div class="cat-paw paw-right"></div>
       </div>
       <!-- Obstáculo que el gato debe esquivar -->
       <div id="obstacle"></div>
@@ -41,13 +66,12 @@
     <div id="gameOver" class="overlay">
       <div><b>Game Over – el gatito chocó un meteorito 💥</b></div>
       <div class="final-score"></div>
+      <div class="thanks-message">¡Gracias por jugar! 🐱</div>
       <button id="restartBtn">Jugar de nuevo</button>
     </div>
 
-    <!-- Texto de ayuda con recomendaciones -->
-    <div class="hint">
-      Tip: podés aumentar o bajar la dificultad cambiando la velocidad en el JS.
-    </div>
+    <!-- Texto de ayuda con recomendaciones (sin mensaje visible por ahora) -->
+    <div class="hint"></div>
   </div>
 
   <!-- Archivo JavaScript que controla la lógica del juego -->

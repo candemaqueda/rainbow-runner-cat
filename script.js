@@ -1,5 +1,6 @@
 // Referencias a elementos HTML del juego
 const game = document.getElementById("game");
+const gameWrapper = document.querySelector(".game-wrapper");
 const cat = document.getElementById("cat");
 const obstacle = document.getElementById("obstacle");
 const scoreEl = document.getElementById("score");
@@ -35,6 +36,7 @@ function resetGame() {
   cat.style.transform = "translateY(0)";
   obstacle.style.left = obstacleX + "px";
   welcomeScreen.style.display = "flex";
+  gameWrapper.style.display = "none";
   gameOverEl.classList.remove("show");
   cancelAnimationFrame(frameId);
 }
@@ -44,6 +46,7 @@ function startGame() {
   if (isPlaying) return;
   isPlaying = true;
   welcomeScreen.style.display = "none";
+  gameWrapper.style.display = "flex";
   gameOverEl.classList.remove("show");
   score = 0;
   obstacleX = gameWidth + 20;
@@ -128,4 +131,4 @@ startBtn.addEventListener("click", () => {
 });
 
 // Arranca en estado esperando
-resetGame();etGame();
+resetGame();

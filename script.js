@@ -1,160 +1,110 @@
-// =======================================
-// ELEMENT REFERENCES
-// =======================================
-const game = document.getElementById("game");
+// =========================
+// CONFIGURACIÓN DEL JUEGO
+// =========================
+
+// Estados
+let gameRunning = false;
+let gravity = 0.6;
+let jumpStrength = 12;
+let velocity = 0;
+let score = 0;
+let obstacleSpeed = 6; // dificultad intermedia
+
+// Elementos del DOM
+const welcomeScreen = document.getElementById("welcomeScreen");
 const gameWrapper = document.querySelector(".game-wrapper");
+const gameArea = document.getElementById("game");
 const cat = document.getElementById("cat");
 const obstacle = document.getElementById("obstacle");
-const scoreEl = document.getElementById("score");
+const scoreDisplay = document.getElementById("score");
+const gameOverScreen = document.getElementById("gameOver");
+const finalScore = document.getElementById("finalScore");
 
-const welcomeScreen = document.getElementById("welcomeScreen");
-const gameOverEl = document.getElementById("gameOver");
-const finalScoreEl = document.querySelector(".final-score");
+// =========================
+// INICIO DEL JUEGO
+// =========================
+document.getElementById("startBtn").addEventListener("click", startGame);
+document.getElementById("restartBtn").addEventListener("click", resetGame);
 
-const startBtn = document.getElementById("startButton");
-const restartBtn = document.getElementById("restartButton");
-
-// =======================================
-// GAME STATE VARIABLES
-// =======================================
-let isPlaying = false;
-let score = 0;
-
-let catY = 0;
-let velocityY = 0;
-
-const gravity = 0.6;
-const jumpForce = 11;
-
-let obstacleX = 800;
-const gameWidth = 800;
-let gameSpeed = 5;
-
-let frameId;
-
-// =======================================
-// RESET GAME
-// =======================================
-function resetGame() {
-  cancelAnimationFrame(frameId);
-
-  isPlaying = false;
-  score = 0;
-  catY = 0;
-  velocityY = 0;
-
-  scoreEl.textContent = "Score: 0";
-  cat.style.transform = "translateY(0px)";
-
-  obstacleX = gameWidth + 60;
-  obstacle.style.left = `${obstacleX}px`;
-
-  gameOverEl.classList.remove("show");
-  gameWrapper.style.display = "none";
-  welcomeScreen.style.display = "flex";
-}
-
-// =======================================
-// START GAME
-// =======================================
 function startGame() {
-  if (isPlaying) return;
-
-  isPlaying = true;
-  score = 0;
-  gameSpeed = 5;
-
   welcomeScreen.style.display = "none";
-  gameOverEl.classList.remove("show");
   gameWrapper.style.display = "flex";
-
-  update();
+  gameRunning = true;
+  animate();
 }
 
-// =======================================
-// JUMP FUNCTION
-// =======================================
-function jump() {
-  if (catY < 5) velocityY = jumpForce;
+function resetGame() {
+  gameOverScreen.style.display = "none";
+  welcomeScreen.style.display = "flex";
+  cat.style.bottom = "0px";
+  obstacle.style.left = "100%";
+  velocity = 0;
+  score = 0;
 }
 
-// =======================================
-// MAIN GAME LOOP
-// =======================================
-function update() {
-  // Apply gravity
-  velocityY -= gravity;
-  catY += velocityY;
-
-  // Floor limit
-  if (catY < 0) {
-    catY = 0;
-    velocityY = 0;
-  }
-
-  cat.style.transform = `translateY(${-catY}px)`;
-
-  // Move obstacle
-  obstacleX -= gameSpeed;
-
-  if (obstacleX < -80) {
-    obstacleX = gameWidth + Math.random() * 350;
-    score++;
-    scoreEl.textContent = `Score: ${score}`;
-
-    if (score % 4 === 0) gameSpeed += 0.4;
-  }
-
-  obstacle.style.left = `${obstacleX}px`;
-
-  // Collision detection
-  const catRect = cat.getBoundingClientRect();
-  const obsRect = obstacle.getBoundingClientRect();
-
-  const colliding =
-    catRect.right > obsRect.left &&
-    catRect.left < obsRect.right &&
-    catRect.bottom > obsRect.top &&
-    catRect.top < obsRect.bottom;
-
-  if (colliding) {
-    handleGameOver();
-    return;
-  }
-
-  frameId = requestAnimationFrame(update);
-}
-
-// =======================================
-// GAME OVER HANDLER
-// =======================================
-function handleGameOver() {
-  cancelAnimationFrame(frameId);
-  isPlaying = false;
-
-  finalScoreEl.textContent = `Score final: ${score}`;
-  gameOverEl.classList.add("show");
-}
-
-// =======================================
-// CONTROLS
-// =======================================
 document.addEventListener("keydown", (e) => {
-  if (e.code === "Space" || e.key === " ") {
-    e.preventDefault();
+  if (e.code === "Space" && gameRunning) {
     jump();
   }
 });
 
-game.addEventListener("pointerdown", () => jump());
+// =========================
+// FÍSICA DEL SALTO
+// =========================
+function jump() {
+  velocity = jumpStrength;
+}
 
-// =======================================
-// BUTTON EVENTS
-// =======================================
-startBtn.addEventListener("click", startGame);
-restartBtn.addEventListener("click", resetGame);
+// =========================
+// LOOP PRINCIPAL
+// =========================
+function animate() {
+  if (!gameRunning) return;
 
-// =======================================
-// INITIALIZE
-// =======================================
-resetGame();
+  // Movimiento vertical del gato
+  let catBottom = parseInt(window.getComputedStyle(cat).bottom);
+  velocity -= gravity;
+  cat.style.bottom = Math.max(0, catBottom + velocity) + "px";
+
+  // Movimiento del obstáculo
+  let obstacleLeft = parseInt(window.getComputedStyle(obstacle).left);
+  if (obstacleLeft < -40) {
+    obstacle.style.left = "100%";
+    score++;
+    scoreDisplay.textContent = score;
+  } else {
+    obstacle.style.left = obstacleLeft - obstacleSpeed + "px";
+  }
+
+  // Colisión
+  if (isCollision(cat, obstacle)) {
+    gameOver();
+    return;
+  }
+
+  requestAnimationFrame(animate);
+}
+
+// =========================
+// DETECCIÓN DE COLISIÓN
+// =========================
+function isCollision(cat, obstacle) {
+  const catRect = cat.getBoundingClientRect();
+  const obsRect = obstacle.getBoundingClientRect();
+
+  return !(
+    catRect.bottom < obsRect.top ||
+    catRect.top > obsRect.bottom ||
+    catRect.right < obsRect.left ||
+    catRect.left > obsRect.right
+  );
+}
+
+// =========================
+// GAME OVER
+// =========================
+function gameOver() {
+  gameRunning = false;
+  gameOverScreen.style.display = "flex";
+  finalScore.textContent = score;
+}

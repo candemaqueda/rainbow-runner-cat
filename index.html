@@ -1,61 +1,297 @@
-<!DOCTYPE html>
-<!-- Estructura principal del documento HTML -->
-<html lang="es">
-<!-- Metadatos del documento, título y enlace al CSS -->
-<head>
-  <meta charset="UTF-8" />
-  <title>RAINBOW RUNNER CAT</title>
-  <link rel="stylesheet" href="style.css" />
-</head>
-<!-- Contenido visible del juego en pantalla -->
-<body>
-  <!-- Pantalla de bienvenida con el gatito y botón Jugar -->
-  <div id="welcomeScreen" class="welcome-screen">
-    <div class="welcome-content">
-      <div class="big-cat"></div>
-      <h2>RAINBOW RUNNER CAT</h2>
-      <p>Ayudá al gatito a esquivar los meteoritos saltando con la barra espaciadora.</p>
-      <button id="startBtn">Jugar</button>
-    </div>
-  </div>
-  <!-- Contenedor principal que agrupa todo el juego -->
-  <div class="game-wrapper">
-    <!-- Título del juego -->
-    <h1>RAINBOW RUNNER CAT</h1>
-    <!-- Instrucciones iniciales para el jugador -->
-    <div class="subtitle">Presioná ESPACIO o tocá la pantalla para saltar 🌈</div>
+/* =========================
+   ESTILOS GENERALES
+   ========================= */
 
-    <!-- Área principal del juego donde se mueve el personaje y aparecen obstáculos -->
-    <div id="game">
-      <!-- Suelo donde corre el gato -->
-      <div id="ground"></div>
-      <!-- Personaje principal: el gato -->
-      <div id="cat">
-        <!-- Cola arcoíris detrás del gato -->
-        <div class="rainbow"></div>
-        <!-- Gatito como sprite -->
-        <img src="gatito.png" alt="Gatito" class="cat-sprite" />
-      </div>
-      <!-- Obstáculo que el gato debe esquivar -->
-      <div id="obstacle"></div>
-    </div>
+* {
+  box-sizing: border-box;
+}
 
-    <!-- Marcador de puntaje -->
-    <div id="score">Score: 0</div>
+html,
+body {
+  margin: 0;
+  padding: 0;
+}
 
-    <!-- Pantalla de Game Over con puntaje final y botón de reinicio -->
-    <div id="gameOver" class="overlay">
-      <div><b>Game Over – el gatito chocó un meteorito 💥</b></div>
-      <div class="final-score"></div>
-      <div class="thanks-message">¡Gracias por jugar! 🐱</div>
-      <button id="restartBtn">Jugar de nuevo</button>
-    </div>
+body {
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "SF Pro Text",
+    sans-serif;
+  background: radial-gradient(circle at top, #1b2560 0, #020617 55%, #00010a 100%);
+  color: #ffffff;
+}
 
-    <!-- Texto de ayuda con recomendaciones (sin mensaje visible por ahora) -->
-    <div class="hint"></div>
-  </div>
+/* Links por si hicieras alguno */
+a {
+  color: inherit;
+  text-decoration: none;
+}
 
-  <!-- Archivo JavaScript que controla la lógica del juego -->
-  <script src="script.js"></script>
-</body>
-</html>
+/* =========================
+   PANTALLA DE BIENVENIDA
+   ========================= */
+
+.welcome-screen {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  padding: 24px;
+}
+
+.welcome-content {
+  background: rgba(6, 10, 30, 0.94);
+  border-radius: 24px;
+  padding: 32px 40px 36px;
+  max-width: 520px;
+  width: 100%;
+  text-align: center;
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.7);
+  border: 1px solid rgba(148, 163, 184, 0.25);
+}
+
+.welcome-kicker {
+  display: block;
+  font-size: 11px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: #a3bffa;
+  margin-bottom: 12px;
+}
+
+.big-cat {
+  width: 140px;
+  height: auto;
+  display: block;
+  margin: 0 auto 16px;
+}
+
+.welcome-content h2 {
+  margin: 0 0 8px;
+  font-size: 28px;
+  letter-spacing: 0.04em;
+}
+
+.welcome-description {
+  margin: 0 0 20px;
+  font-size: 14px;
+  line-height: 1.6;
+  color: #e2e8f0;
+}
+
+/* Botón principal reutilizable */
+.primary-button,
+#welcomeScreen button,
+#gameOver button {
+  appearance: none;
+  border: none;
+  border-radius: 999px;
+  padding: 10px 26px;
+  font-weight: 600;
+  font-size: 14px;
+  cursor: pointer;
+  background: linear-gradient(135deg, #fb923c, #f97316);
+  color: #0b1020;
+  box-shadow: 0 10px 25px rgba(248, 148, 74, 0.55);
+  transition: transform 0.12s ease-out, box-shadow 0.12s ease-out,
+    filter 0.12s ease-out;
+}
+
+.primary-button:hover,
+#welcomeScreen button:hover,
+#gameOver button:hover {
+  transform: translateY(-1px);
+  filter: brightness(1.05);
+  box-shadow: 0 14px 30px rgba(248, 148, 74, 0.75);
+}
+
+.primary-button:active,
+#welcomeScreen button:active,
+#gameOver button:active {
+  transform: translateY(0);
+  box-shadow: 0 6px 18px rgba(248, 148, 74, 0.45);
+}
+
+/* =========================
+   CONTENEDOR DEL JUEGO
+   ========================= */
+
+.game-wrapper {
+  display: none; /* se muestra desde JS al iniciar */
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  padding: 24px;
+  position: relative;
+}
+
+.game-wrapper h1 {
+  margin: 0 0 8px;
+  font-size: 26px;
+  letter-spacing: 0.06em;
+  text-align: center;
+}
+
+.subtitle {
+  margin-bottom: 16px;
+  text-align: center;
+  color: #cbd5f5;
+  font-size: 13px;
+}
+
+/* =========================
+   ÁREA DEL JUEGO
+   ========================= */
+
+#game {
+  position: relative;
+  width: 720px;
+  height: 260px;
+  margin-top: 12px;
+  background: #020617;
+  border-radius: 12px;
+  overflow: hidden;
+  border: 1px solid rgba(30, 64, 175, 0.7);
+  box-shadow: 0 18px 45px rgba(15, 23, 42, 0.9);
+}
+
+/* Suelo */
+#ground {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  height: 34px;
+  background: repeating-linear-gradient(
+      -45deg,
+      #020617 0,
+      #020617 8px,
+      #111827 8px,
+      #111827 16px
+    );
+}
+
+/* Contenedor del gatito */
+#cat {
+  position: absolute;
+  left: 70px;
+  bottom: 34px;
+  display: flex;
+  align-items: center;
+}
+
+/* Cola arcoíris */
+.rainbow {
+  width: 110px;
+  height: 12px;
+  background: linear-gradient(
+    90deg,
+    #22c55e,
+    #facc15,
+    #fb923c,
+    #f97316,
+    #ec4899,
+    #6366f1
+  );
+  border-radius: 999px;
+  box-shadow: 0 0 12px rgba(129, 140, 248, 0.7);
+}
+
+/* Sprite del gatito */
+.cat-sprite {
+  width: 70px;
+  height: auto;
+  display: block;
+  margin-left: 8px;
+}
+
+/* Obstáculo */
+#obstacle {
+  position: absolute;
+  bottom: 34px;
+  width: 26px;
+  height: 40px;
+  background: #22c55e;
+  border-radius: 6px;
+  box-shadow: 0 0 10px rgba(34, 197, 94, 0.6);
+}
+
+/* =========================
+   SCORE Y TEXTOS
+   ========================= */
+
+#score {
+  margin-top: 12px;
+  font-size: 14px;
+  text-align: center;
+}
+
+/* Hint opcional */
+.hint {
+  margin-top: 6px;
+  font-size: 12px;
+  text-align: center;
+  color: #94a3b8;
+}
+
+/* =========================
+   GAME OVER
+   ========================= */
+
+#gameOver {
+  display: none;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: rgba(6, 10, 30, 0.97);
+  padding: 24px 32px;
+  border-radius: 20px;
+  text-align: center;
+  color: #ffffff;
+  flex-direction: column;
+  gap: 8px;
+  box-shadow: 0 18px 50px rgba(0, 0, 0, 0.8);
+  border: 1px solid rgba(148, 163, 184, 0.4);
+}
+
+#gameOver.show {
+  display: flex;
+}
+
+.final-score {
+  font-size: 15px;
+}
+
+.thanks-message {
+  font-size: 14px;
+  color: #e2e8f0;
+}
+
+/* =========================
+   RESPONSIVE
+   ========================= */
+
+@media (max-width: 900px) {
+  #game {
+    width: 100%;
+    max-width: 640px;
+  }
+
+  .game-wrapper {
+    padding: 16px;
+  }
+}
+
+@media (max-width: 640px) {
+  .welcome-content {
+    padding: 24px 20px 28px;
+  }
+
+  #game {
+    height: 220px;
+  }
+
+  #cat {
+    left: 40px;
+  }
+}

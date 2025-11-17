@@ -226,7 +226,7 @@ button:active,
 
 /* Imagen del gatito (sprite) */
 .cat-sprite {
-  width: 100px; /* más chico para que sea más jugable */
+  width: 125px; /* aumentado para verse mejor */
   height: auto;
   display: block;
 }
@@ -318,6 +318,6 @@ button:active,
   }
 
   .cat-sprite {
-    width: 85px; /* también más chico en mobile */
+    width: 105px; /* aumentado en mobile */
   }
 }

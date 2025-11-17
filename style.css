@@ -59,6 +59,12 @@ body {
   height: auto;
   display: block;
   margin: 0 auto 16px;
+
+  /* halo suave detrás del gatito de bienvenida */
+  background: radial-gradient(circle, rgba(255, 255, 255, 0.9) 0%, rgba(255, 255, 255, 0) 70%);
+  border-radius: 999px;
+  padding: 16px 28px;
+  box-shadow: 0 0 32px rgba(255, 255, 255, 0.18);
 }
 
 .welcome-content h2 {
@@ -220,7 +226,7 @@ button:active,
 
 /* Imagen del gatito (sprite) */
 .cat-sprite {
-  width: 130px;
+  width: 100px; /* más chico para que sea más jugable */
   height: auto;
   display: block;
 }
@@ -312,6 +318,6 @@ button:active,
   }
 
   .cat-sprite {
-    width: 115px;
+    width: 85px; /* también más chico en mobile */
   }
 }

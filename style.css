@@ -77,54 +77,23 @@ h1 {
   border-top: 2px solid #4b5563;
 }
 
-/* Estilos para el cuerpo principal del personaje gato */
+/* Gatito principal del juego, ubicado sobre el piso */
 #cat {
   position: absolute;
-  left: 80px;
-  bottom: 40px; /* igual que ground height */
-  width: 50px;
-  height: 36px;
-  background: #f9739a; /* cuerpo galletita */
-  border: 3px solid #111827;
-  border-radius: 6px;
-  box-shadow: 0 0 0 3px #faccf7;
+  left: 120px;
+  bottom: 40px;
+  width: 140px;
+  height: 70px;
   image-rendering: pixelated;
 }
 
-/* Pseudo-elemento que dibuja la cara del gato */
-#cat::before {
-  content: "";
-  position: absolute;
-  width: 24px;
-  height: 18px;
-  right: -20px;
-  top: 6px;
-  background: #4b5563;
-  border: 3px solid #111827;
-  border-radius: 6px;
-  box-shadow: 0 0 0 2px #111827;
-}
-
-/* Pseudo-elemento que dibuja las orejas del gato */
-#cat::after {
-  content: "";
-  position: absolute;
-  width: 18px;
-  height: 10px;
-  right: -16px;
-  top: -6px;
-  background: #4b5563;
-  border-radius: 3px 3px 0 0;
-  box-shadow: 12px 0 0 0 #4b5563;
-}
-
-/* Estilos para la cola arcoíris detrás del gato */
+/* Cola arcoíris detrás del gato */
 .rainbow {
   position: absolute;
-  left: -140px;
-  top: 14px;
-  width: 140px;
-  height: 14px;
+  left: -160px;
+  bottom: 22px;
+  width: 160px;
+  height: 16px;
   background: linear-gradient(
     to right,
     #f97316,
@@ -134,8 +103,99 @@ h1 {
     #6366f1,
     #a855f7
   );
-  border-radius: 8px;
+  border-radius: 10px;
   opacity: 0.95;
+}
+
+/* Manta azul donde descansa el gatito */
+.cat-blanket {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  height: 28px;
+  background: #93c5fd;
+  border-radius: 6px;
+  box-shadow: 0 0 0 3px #020617;
+}
+
+/* Cabeza blanca del gatito */
+.cat-head {
+  position: absolute;
+  left: 36px;
+  bottom: 20px;
+  width: 76px;
+  height: 46px;
+  background: #f9fafb;
+  border-radius: 8px;
+  box-shadow: 0 0 0 3px #020617;
+}
+
+/* Orejas del gatito */
+.cat-ear {
+  position: absolute;
+  width: 14px;
+  height: 16px;
+  background: #f9fafb;
+  box-shadow: 0 0 0 3px #020617;
+}
+
+.ear-left {
+  left: -4px;
+  top: -14px;
+}
+
+.ear-right {
+  right: -4px;
+  top: -14px;
+}
+
+/* Ojos del gatito */
+.cat-eye {
+  position: absolute;
+  width: 6px;
+  height: 6px;
+  background: #020617;
+  border-radius: 2px;
+  top: 16px;
+}
+
+.eye-left {
+  left: 16px;
+}
+
+.eye-right {
+  right: 16px;
+}
+
+/* Boca del gatito */
+.cat-mouth {
+  position: absolute;
+  width: 10px;
+  height: 4px;
+  background: #020617;
+  border-radius: 0 0 4px 4px;
+  bottom: 10px;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+/* Patitas delanteras del gatito */
+.cat-paw {
+  position: absolute;
+  width: 16px;
+  height: 16px;
+  background: #f9fafb;
+  box-shadow: 0 0 0 3px #020617;
+  bottom: 6px;
+}
+
+.paw-left {
+  left: 10px;
+}
+
+.paw-right {
+  right: 10px;
 }
 
 /* Estilos para los obstáculos que el gato debe saltar */
@@ -176,6 +236,13 @@ h1 {
   font-size: 16px;
 }
 
+/* Mensaje de agradecimiento al finalizar la partida */
+.thanks-message {
+  margin-top: 4px;
+  font-size: 13px;
+  opacity: 0.85;
+}
+
 /* Estilos para los botones de acción */
 button {
   margin-top: 8px;
@@ -199,4 +266,54 @@ button:hover {
   font-size: 12px;
   margin-top: 6px;
   opacity: 0.7;
+}
+
+/* Pantalla de bienvenida a pantalla completa */
+.welcome-screen {
+  position: fixed;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: radial-gradient(circle at top, #1b2559 0, #050617 60%, #02010a 100%);
+  z-index: 100;
+}
+
+.welcome-content {
+  text-align: center;
+}
+
+/* Gatito grande en la pantalla de bienvenida (versión simplificada pixel) */
+.big-cat {
+  width: 180px;
+  height: 110px;
+  margin: 0 auto 16px;
+  position: relative;
+  image-rendering: pixelated;
+}
+
+/* Manta azul grande */
+.big-cat::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  height: 40px;
+  background: #93c5fd;
+  border-radius: 8px;
+  box-shadow: 0 0 0 4px #020617;
+}
+
+/* Cabeza blanca grande */
+.big-cat::after {
+  content: "";
+  position: absolute;
+  left: 36px;
+  bottom: 24px;
+  width: 108px;
+  height: 70px;
+  background: #f9fafb;
+  border-radius: 8px;
+  box-shadow: 0 0 0 4px #020617;
 }

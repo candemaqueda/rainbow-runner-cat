@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <title>RAINBOW RUNNER CAT</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="game-wrapper">
+    <h1>RAINBOW RUNNER CAT</h1>
+    <div class="subtitle">Presioná ESPACIO o tocá la pantalla para saltar 🌈</div>
+
+    <div id="game">
+      <div id="ground"></div>
+      <div id="cat">
+        <div class="rainbow"></div>
+      </div>
+      <div id="obstacle"></div>
+    </div>
+
+    <div id="score">Score: 0</div>
+
+    <div id="startScreen" class="overlay show">
+      Presioná <b>ESPACIO</b> o tocá dentro del juego para empezar.
+    </div>
+
+    <div id="gameOver" class="overlay">
+      <div><b>Game Over – el gatito chocó un meteorito 💥</b></div>
+      <div class="final-score"></div>
+      <button id="restartBtn">Jugar de nuevo</button>
+    </div>
+
+    <div class="hint">
+      Tip: podés aumentar o bajar la dificultad cambiando la velocidad en el JS.
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>

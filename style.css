@@ -82,9 +82,15 @@ h1 {
   position: absolute;
   left: 120px;
   bottom: 40px;
-  width: 140px;
-  height: 70px;
+  display: flex;
+  align-items: center;
+}
+
+/* Imagen del gatito (sprite pixelado) */
+.cat-sprite {
+  width: 150px;
   image-rendering: pixelated;
+  display: block;
 }
 
 /* Cola arcoíris detrás del gato */

@@ -89,7 +89,7 @@ h1 {
 /* Imagen del gatito (sprite pixelado) */
 .cat-sprite {
   width: 150px;
-  image-rendering: pixelated;
+  height: auto;
   display: block;
 }
 
@@ -291,35 +291,8 @@ button:hover {
 
 /* Gatito grande en la pantalla de bienvenida (versión simplificada pixel) */
 .big-cat {
-  width: 180px;
-  height: 110px;
+  width: 200px;
+  height: auto;
   margin: 0 auto 16px;
-  position: relative;
-  image-rendering: pixelated;
-}
-
-/* Manta azul grande */
-.big-cat::before {
-  content: "";
-  position: absolute;
-  left: 0;
-  bottom: 0;
-  width: 100%;
-  height: 40px;
-  background: #93c5fd;
-  border-radius: 8px;
-  box-shadow: 0 0 0 4px #020617;
-}
-
-/* Cabeza blanca grande */
-.big-cat::after {
-  content: "";
-  position: absolute;
-  left: 36px;
-  bottom: 24px;
-  width: 108px;
-  height: 70px;
-  background: #f9fafb;
-  border-radius: 8px;
-  box-shadow: 0 0 0 4px #020617;
+  display: block;
 }

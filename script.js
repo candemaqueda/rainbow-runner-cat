@@ -1,77 +1,92 @@
-// Referencias a elementos HTML del juego
+// =======================================
+// ELEMENT REFERENCES
+// =======================================
 const game = document.getElementById("game");
 const gameWrapper = document.querySelector(".game-wrapper");
 const cat = document.getElementById("cat");
 const obstacle = document.getElementById("obstacle");
 const scoreEl = document.getElementById("score");
+
 const welcomeScreen = document.getElementById("welcomeScreen");
 const gameOverEl = document.getElementById("gameOver");
-const finalScoreEl = gameOverEl.querySelector(".final-score");
-const restartBtn = document.getElementById("restartBtn");
-const startBtn = document.getElementById("startBtn");
+const finalScoreEl = document.querySelector(".final-score");
 
-// Variables del juego
+const startBtn = document.getElementById("startButton");
+const restartBtn = document.getElementById("restartButton");
+
+// =======================================
+// GAME STATE VARIABLES
+// =======================================
 let isPlaying = false;
+let score = 0;
+
 let catY = 0;
 let velocityY = 0;
+
 const gravity = 0.6;
 const jumpForce = 11;
 
 let obstacleX = 800;
 const gameWidth = 800;
-let gameSpeed = 5; // dificultad intermedia
-let score = 0;
+let gameSpeed = 5;
+
 let frameId;
 
-// Reiniciar juego
+// =======================================
+// RESET GAME
+// =======================================
 function resetGame() {
+  cancelAnimationFrame(frameId);
+
   isPlaying = false;
+  score = 0;
   catY = 0;
   velocityY = 0;
-  obstacleX = gameWidth + 40;
-  gameSpeed = 5;
-  score = 0;
 
   scoreEl.textContent = "Score: 0";
   cat.style.transform = "translateY(0px)";
-  obstacle.style.left = obstacleX + "px";
 
-  welcomeScreen.style.display = "flex";
-  gameWrapper.style.display = "none";
+  obstacleX = gameWidth + 60;
+  obstacle.style.left = `${obstacleX}px`;
+
   gameOverEl.classList.remove("show");
-
-  cancelAnimationFrame(frameId);
+  gameWrapper.style.display = "none";
+  welcomeScreen.style.display = "flex";
 }
 
-// Iniciar juego
+// =======================================
+// START GAME
+// =======================================
 function startGame() {
   if (isPlaying) return;
+
   isPlaying = true;
+  score = 0;
+  gameSpeed = 5;
 
   welcomeScreen.style.display = "none";
-  gameWrapper.style.display = "flex";
   gameOverEl.classList.remove("show");
-
-  score = 0;
-  obstacleX = gameWidth + 40;
-  gameSpeed = 5;
+  gameWrapper.style.display = "flex";
 
   update();
 }
 
-// Saltar
+// =======================================
+// JUMP FUNCTION
+// =======================================
 function jump() {
-  if (catY < 5) {
-    velocityY = jumpForce;
-  }
+  if (catY < 5) velocityY = jumpForce;
 }
 
-// Loop principal
+// =======================================
+// MAIN GAME LOOP
+// =======================================
 function update() {
-  // Física del salto
+  // Apply gravity
   velocityY -= gravity;
   catY += velocityY;
 
+  // Floor limit
   if (catY < 0) {
     catY = 0;
     velocityY = 0;
@@ -79,31 +94,30 @@ function update() {
 
   cat.style.transform = `translateY(${-catY}px)`;
 
-  // Movimiento del obstáculo
+  // Move obstacle
   obstacleX -= gameSpeed;
-  if (obstacleX < -60) {
+
+  if (obstacleX < -80) {
     obstacleX = gameWidth + Math.random() * 350;
     score++;
-    scoreEl.textContent = "Score: " + score;
+    scoreEl.textContent = `Score: ${score}`;
 
-    if (score % 4 === 0) {
-      gameSpeed += 0.35; // velocidad aumenta gradual
-    }
+    if (score % 4 === 0) gameSpeed += 0.4;
   }
 
-  obstacle.style.left = obstacleX + "px";
+  obstacle.style.left = `${obstacleX}px`;
 
-  // Colisión
+  // Collision detection
   const catRect = cat.getBoundingClientRect();
   const obsRect = obstacle.getBoundingClientRect();
 
-  const isColliding =
+  const colliding =
     catRect.right > obsRect.left &&
     catRect.left < obsRect.right &&
     catRect.bottom > obsRect.top &&
     catRect.top < obsRect.bottom;
 
-  if (isColliding) {
+  if (colliding) {
     handleGameOver();
     return;
   }
@@ -111,15 +125,20 @@ function update() {
   frameId = requestAnimationFrame(update);
 }
 
-// Game Over
+// =======================================
+// GAME OVER HANDLER
+// =======================================
 function handleGameOver() {
-  isPlaying = false;
-  finalScoreEl.textContent = "Score final: " + score;
-  gameOverEl.classList.add("show");
   cancelAnimationFrame(frameId);
+  isPlaying = false;
+
+  finalScoreEl.textContent = `Score final: ${score}`;
+  gameOverEl.classList.add("show");
 }
 
-// Controles
+// =======================================
+// CONTROLS
+// =======================================
 document.addEventListener("keydown", (e) => {
   if (e.code === "Space" || e.key === " ") {
     e.preventDefault();
@@ -129,12 +148,13 @@ document.addEventListener("keydown", (e) => {
 
 game.addEventListener("pointerdown", () => jump());
 
+// =======================================
+// BUTTON EVENTS
+// =======================================
+startBtn.addEventListener("click", startGame);
 restartBtn.addEventListener("click", resetGame);
 
-startBtn.addEventListener("click", () => {
-  resetGame();
-  startGame();
-});
-
-// Estado inicial
+// =======================================
+// INITIALIZE
+// =======================================
 resetGame();

@@ -111,15 +111,21 @@ button:active,
    ========================= */
 
 .game-wrapper {
-  display: none; /* la muestra el JS al iniciar */
+  display: none; /* la muestra el JS al iniciar con display:flex */
   text-align: center;
   min-height: 100vh;
   padding: 24px;
-  display: none;
-  display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
+}
+
+.game-inner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  max-width: 820px;
+  width: 100%;
 }
 
 .game-wrapper h1 {
@@ -145,7 +151,7 @@ button:active,
   border: 3px solid #ffffff33;
   background: #020617;
   overflow: hidden;
-  margin: 0 auto;
+  margin: 12px auto 0;
   border-radius: 12px;
   box-shadow: 0 18px 45px rgba(15, 23, 42, 0.9);
 }
@@ -185,7 +191,7 @@ button:active,
 
 #cat {
   position: absolute;
-  left: 120px;
+  left: 90px;
   bottom: 40px;
   display: flex;
   align-items: center;
@@ -214,7 +220,7 @@ button:active,
 
 /* Imagen del gatito (sprite) */
 .cat-sprite {
-  width: 150px;
+  width: 130px;
   height: auto;
   display: block;
 }
@@ -301,6 +307,11 @@ button:active,
   }
 
   #cat {
-    left: 60px;
+    left: 50px;
+    bottom: 32px;
+  }
+
+  .cat-sprite {
+    width: 115px;
   }
 }
